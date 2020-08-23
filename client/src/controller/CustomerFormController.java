@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import proxy.ProxyHandler;
 import service.ServiceFactory;
 import service.custom.CustomerService;
@@ -23,7 +24,7 @@ public class CustomerFormController {
     public TextField txtAddress;
     public JFXButton btnSave;
     public TextField txtSearch;
-    public TableView tbl;
+    public TableView<CustomerTM> tbl;
     public TableColumn colId;
     public TableColumn colName;
     public TableColumn colAddress;
@@ -31,6 +32,11 @@ public class CustomerFormController {
     public TableColumn colOperate;
 
     public void initialize() throws Exception {
+        colId.setCellValueFactory(new PropertyValueFactory("id"));
+        colName.setCellValueFactory(new PropertyValueFactory("name"));
+        colAddress.setCellValueFactory(new PropertyValueFactory("address"));
+        colSalary.setCellValueFactory(new PropertyValueFactory("salary"));
+        colOperate.setCellValueFactory(new PropertyValueFactory("button"));
         loadAllCustomers();
     }
 
