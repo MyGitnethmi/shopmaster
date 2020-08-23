@@ -2,13 +2,17 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import dto.CustomerDTO;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import proxy.ProxyHandler;
 import service.ServiceFactory;
 import service.custom.CustomerService;
+import view.tm.CustomerTM;
 
 import java.util.List;
 
@@ -33,10 +37,14 @@ public class CustomerFormController {
     private void loadAllCustomers() throws Exception {
         CustomerService service = ProxyHandler.getInstance().getService(ServiceFactory.ServiceType.CUSTOMER);
         List<CustomerDTO> allCustomers = service.getAllCustomers();
+        ObservableList<CustomerTM> observableList = FXCollections.observableArrayList();
+
+        for (CustomerDTO d : allCustomers) {
+            Button btn = new Button("Delete");
+            observableList.add(new CustomerTM(d.getId(), d.getName(), d.getAddress(), d.getSalary(), btn));
+        }
+        tbl.setItems(observableList);
     }
-
-
-
 
 
     public void Save_AndUpdate(ActionEvent actionEvent) throws Exception {
