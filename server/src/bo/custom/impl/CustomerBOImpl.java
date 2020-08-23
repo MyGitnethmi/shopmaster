@@ -3,7 +3,10 @@ package bo.custom.impl;
 import bo.custom.CustomerBO;
 import dao.DaoFactory;
 import dao.custom.CustomerDao;
+import db.HibernateUtil;
 import dto.CustomerDTO;
+import entity.Customer;
+import org.hibernate.Session;
 
 import java.util.List;
 
@@ -15,6 +18,16 @@ public class CustomerBOImpl implements CustomerBO {
     @Override
     public boolean saveCustomer(CustomerDTO dto) throws Exception {
 
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            dao.setSession(session);
+            session.beginTransaction();
+            boolean isSaved = dao.save(
+                    new Customer(dto.getId(), dto.getName(), dto.getAddress(), dto.getSalary())
+            );
+            session.getTransaction().commit();
+            return isSaved;
+
+        }
 
     }
 

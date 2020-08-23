@@ -9,7 +9,7 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 public class HibernateUtil {
-    private static SessionFactory sessionFactory = null;
+    private static SessionFactory sessionFactory = buildSessionFactory();
 
 
     public static SessionFactory buildSessionFactory() {
