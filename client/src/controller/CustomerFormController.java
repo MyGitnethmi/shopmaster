@@ -78,12 +78,11 @@ public class CustomerFormController {
                 ButtonType ok = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
                 ButtonType no = new ButtonType("NO", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are You sure whether You Want to delete this Customer?", ok, no);
                 alert.setTitle("Warning!");
-                alert.setContentText("Are You sure whether You Want to delete this Customer?");
 
                 Optional<ButtonType> result = alert.showAndWait();
-                if (result.orElse(ok) == no) {
+                if (result.orElse(no) == ok) {
                     try {
                         boolean isDeleted = service.deleteCustomer(d.getId());
                         if (isDeleted) {
