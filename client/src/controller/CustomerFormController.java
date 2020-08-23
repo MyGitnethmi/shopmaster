@@ -45,6 +45,8 @@ public class CustomerFormController {
         List<CustomerDTO> allCustomers = service.getAllCustomers();
         ObservableList<CustomerTM> observableList = FXCollections.observableArrayList();
 
+        observableList.clear();
+
         for (CustomerDTO d : allCustomers) {
             Button btn = new Button("Delete");
             observableList.add(new CustomerTM(d.getId(), d.getName(), d.getAddress(), d.getSalary(), btn));
@@ -62,7 +64,9 @@ public class CustomerFormController {
 
             CustomerService service = ProxyHandler.getInstance().getService(ServiceFactory.ServiceType.CUSTOMER);
             boolean isSaved = service.saveCustomer(dto);
-            System.out.println(isSaved);
+            if (isSaved) {
+                loadAllCustomers();
+            }
         } else {
             //update
         }
