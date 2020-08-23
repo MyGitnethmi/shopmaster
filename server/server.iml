@@ -18,5 +18,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="antlr-2.7.7" level="project" />
     <orderEntry type="library" name="mysql-connector-java-5.1.34" level="project" />
+    <orderEntry type="module" module-name="common" />
   </component>
 </module>
