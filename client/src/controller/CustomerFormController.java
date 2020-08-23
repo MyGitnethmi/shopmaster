@@ -10,6 +10,8 @@ import proxy.ProxyHandler;
 import service.ServiceFactory;
 import service.custom.CustomerService;
 
+import java.util.List;
+
 public class CustomerFormController {
     public TextField txtId;
     public TextField txtName;
@@ -24,8 +26,20 @@ public class CustomerFormController {
     public TableColumn colSalary;
     public TableColumn colOperate;
 
-    public void Save_AndUpdate(ActionEvent actionEvent) throws Exception {
+    public void initialize() throws Exception {
+        loadAllCustomers();
+    }
 
+    private void loadAllCustomers() throws Exception {
+        CustomerService service = ProxyHandler.getInstance().getService(ServiceFactory.ServiceType.CUSTOMER);
+        List<CustomerDTO> allCustomers = service.getAllCustomers();
+    }
+
+
+
+
+
+    public void Save_AndUpdate(ActionEvent actionEvent) throws Exception {
         if (btnSave.getText().equalsIgnoreCase("Save Customer")) {
 
             CustomerDTO dto = new CustomerDTO(
@@ -35,8 +49,6 @@ public class CustomerFormController {
             CustomerService service = ProxyHandler.getInstance().getService(ServiceFactory.ServiceType.CUSTOMER);
             boolean isSaved = service.saveCustomer(dto);
             System.out.println(isSaved);
-
-            // save
         } else {
             //update
         }
