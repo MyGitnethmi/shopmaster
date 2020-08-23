@@ -13,6 +13,7 @@ import service.custom.CustomerService;
 import view.tm.CustomerTM;
 
 import java.util.List;
+import java.util.Optional;
 
 public class CustomerFormController {
     public TextField txtId;
@@ -51,7 +52,7 @@ public class CustomerFormController {
             btn.setOnAction(e -> {
 
 
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+               /* Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Warning!");
                 alert.setContentText("Are You sure whether You Want to delete this Customer?");
 
@@ -72,8 +73,26 @@ public class CustomerFormController {
                     } else {
                         //
                     }
-                });
+                });*/
 
+                ButtonType ok = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+                ButtonType no = new ButtonType("NO", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Warning!");
+                alert.setContentText("Are You sure whether You Want to delete this Customer?");
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.orElse(ok) == no) {
+                    try {
+                        boolean isDeleted = service.deleteCustomer(d.getId());
+                        if (isDeleted) {
+                            loadAllCustomers();
+                        }
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                }
 
             });
 
