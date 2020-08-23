@@ -8,6 +8,7 @@ import dto.CustomerDTO;
 import entity.Customer;
 import org.hibernate.Session;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerBOImpl implements CustomerBO {
@@ -26,27 +27,64 @@ public class CustomerBOImpl implements CustomerBO {
             );
             session.getTransaction().commit();
             return isSaved;
-
         }
 
     }
 
     @Override
     public boolean updateCustomer(CustomerDTO dto) throws Exception {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            dao.setSession(session);
+            session.beginTransaction();
+            boolean isUpdated = dao.update(
+                    new Customer(dto.getId(), dto.getName(), dto.getAddress(), dto.getSalary())
+            );
+            session.getTransaction().commit();
+            return isUpdated;
+        }
     }
 
     @Override
     public boolean deleteCustomer(String id) throws Exception {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            dao.setSession(session);
+            session.beginTransaction();
+            boolean isDeleted = dao.delete(id);
+            session.getTransaction().commit();
+            return isDeleted;
+        }
 
     }
 
     @Override
     public CustomerDTO getCustomer(String id) throws Exception {
-        return null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            dao.setSession(session);
+            session.beginTransaction();
+            Customer c = dao.get(id);
+            session.getTransaction().commit();
+            if (c != null) {
+                return new CustomerDTO(c.getId(), c.getName(), c.getAddress(), c.getSalary());
+            } else {
+                return null;
+            }
+        }
     }
 
     @Override
     public List<CustomerDTO> getAllCustomers() throws Exception {
-        return null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            dao.setSession(session);
+            session.beginTransaction();
+            List<Customer> customerList = dao.getAll();
+            session.getTransaction().commit();
+            List<CustomerDTO> dtos = new ArrayList<>();
+
+            for (Customer c : customerList) { //iter then Tab
+                dtos.add(new CustomerDTO(c.getId(), c.getName(), c.getAddress(), c.getSalary()));
+            }
+            return dtos;
+
+        }
     }
 }
