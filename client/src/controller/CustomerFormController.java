@@ -5,10 +5,7 @@ import dto.CustomerDTO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import proxy.ProxyHandler;
 import service.ServiceFactory;
@@ -50,6 +47,36 @@ public class CustomerFormController {
         for (CustomerDTO d : allCustomers) {
             Button btn = new Button("Delete");
             observableList.add(new CustomerTM(d.getId(), d.getName(), d.getAddress(), d.getSalary(), btn));
+
+            btn.setOnAction(e -> {
+
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Warning!");
+                alert.setContentText("Are You sure whether You Want to delete this Customer?");
+
+                ButtonType ok = new ButtonType("Ok", ButtonBar.ButtonData.YES);
+                ButtonType no = new ButtonType("No", ButtonBar.ButtonData.NO);
+
+                alert.getButtonTypes().setAll(ok, no);
+                alert.showAndWait().ifPresent(buttonType -> {
+                    if (buttonType == ButtonType.OK) {
+                        try {
+                            boolean isDeleted = service.deleteCustomer(d.getId());
+                            if (isDeleted) {
+                                loadAllCustomers();
+                            }
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
+                    } else {
+                        //
+                    }
+                });
+
+
+            });
+
         }
         tbl.setItems(observableList);
     }

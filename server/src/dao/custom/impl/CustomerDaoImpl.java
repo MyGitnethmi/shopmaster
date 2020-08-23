@@ -24,7 +24,7 @@ public class CustomerDaoImpl implements CustomerDao {
 
     @Override
     public boolean delete(String s) throws Exception {
-        session.delete(s);
+        session.delete(session.load(Customer.class, s));
         return true;
     }
 
