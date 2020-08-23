@@ -60,7 +60,7 @@ public class CustomerFormController {
 
                 alert.getButtonTypes().setAll(ok, no);
                 alert.showAndWait().ifPresent(buttonType -> {
-                    if (buttonType == ButtonType.OK) {
+                    if (buttonType == ButtonType.YES) {
                         try {
                             boolean isDeleted = service.deleteCustomer(d.getId());
                             if (isDeleted) {
