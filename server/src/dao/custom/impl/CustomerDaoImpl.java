@@ -7,14 +7,19 @@ import org.hibernate.Session;
 import java.util.List;
 
 public class CustomerDaoImpl implements CustomerDao {
+
+
+    private Session session;
+
     @Override
     public boolean save(Customer customer) throws Exception {
-        return false;
+        return session.save(customer) != null;
     }
 
     @Override
     public boolean update(Customer customer) throws Exception {
-        return false;
+        session.merge(customer);
+        return true;
     }
 
     @Override
@@ -34,6 +39,6 @@ public class CustomerDaoImpl implements CustomerDao {
 
     @Override
     public void setSession(Session session) {
-
+        this.session = session;
     }
 }
