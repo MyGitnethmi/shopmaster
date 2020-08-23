@@ -3,6 +3,8 @@ package bo.custom;
 import bo.SuperBo;
 import dto.CustomerDTO;
 
+import java.util.List;
+
 public interface CustomerBO extends SuperBo {
     public boolean saveCustomer(CustomerDTO dto) throws Exception;
 
@@ -10,7 +12,7 @@ public interface CustomerBO extends SuperBo {
 
     public boolean deleteCustomer(String id) throws Exception;
 
-    public boolean getCustomer(String id) throws Exception;
+    public CustomerDTO getCustomer(String id) throws Exception;
 
-    public boolean getAllCustomers() throws Exception;
+    public List<CustomerDTO> getAllCustomers() throws Exception;
 }
