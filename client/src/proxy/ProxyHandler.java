@@ -32,6 +32,10 @@ public class ProxyHandler implements ServiceFactory {
         }
     }
 
+    public static ProxyHandler getInstance() {
+        return (proxyHandler == null) ? (proxyHandler = new ProxyHandler()) : (proxyHandler);
+    }
+
 
     @Override
     public <T> T getService(ServiceType type) throws Exception {
